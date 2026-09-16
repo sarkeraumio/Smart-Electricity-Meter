@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Volt Vision
+# ⚡ Smart Electricity Meter
 
 ### A smart electricity meter that watches your power, protects your home, and talks back.
 
