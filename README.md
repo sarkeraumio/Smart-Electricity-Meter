@@ -88,7 +88,7 @@ flowchart LR
         CTRL["Power control<br/>logic & fire alarm"]:::aumio
         WIFI["📶 ESP8266<br/>Wi-Fi"]:::aumio
         MUX["74HC157<br/>MUX"]:::aumio
-        VOICE["🗣️ ESP32<br/>voice AI"]:::aumio
+        VOICE["🗣️ ESP32<br/>voice AI"]:::team
         ALERT["🔔 Buzzer<br/>🔴 Status LED"]:::aumio
 
         INAB --> MON
@@ -103,7 +103,7 @@ flowchart LR
         VOICE --> MUX
     end
 
-    WIFI <--> TS[("☁️ ThingSpeak")]:::aumio
+    WIFI <--> TS[("☁️ ThingSpeak")]:::team
     TS --> ML["🤖 Isolation Forest<br/>anomaly detector"]:::aumio
     ML -- anomaly flag --> TS
     TS <--> APP["📱 MATLAB App"]:::aumio
