@@ -44,14 +44,6 @@ Traditional electricity meters only count units. They can't tell a household wha
 | 📱 **MATLAB App** | Shows meter status and sends a remote cutoff |
 | 🌐 **Web dashboard** | Secure login, live gauges, custom limits and historical charts |
 
-### How it's used
-
-1. **Power on:** the meter starts measuring and shows live readings on the OLED.
-2. **Check the bill:** tap an RFID card to view private energy and cost, and tap again to pay.
-3. **Stay informed:** log in to the website for live gauges, alerts and history by day, month or year.
-4. **Take control:** switch the supply off from the MATLAB App, or say "turn on" to the voice assistant to restore it.
-5. **Stay safe:** faults, anomalies and overheating trigger alarms, and fires cut the power automatically.
-
 ### The team
 
 Volt Vision was built by four EE students, each owning a subsystem:
@@ -64,7 +56,6 @@ Volt Vision was built by four EE students, each owning a subsystem:
 | ⬜ Wootinun Ouppapong (Boon) | Web dashboard and user database |
 
 ---
-
 
 Aumio's work produces the data and the warnings.
 ---
