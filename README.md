@@ -289,7 +289,7 @@ stateDiagram-v2
 
 ---
 
-### 🔥 J4. Fire Alarm
+### 🔥 A8. Fire Alarm
 
 A fire leaves live wiring behind, which endangers firefighters. The meter removes that risk automatically.
 
@@ -324,17 +324,6 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 | **On-device limits** | The Mega can't run ML models, so detection was moved to an external service |
 | **False positives** | Momentary spikes, sensor noise and environmental changes can look like anomalies |
 | **Small dataset** | Limited data makes it harder to tell rare-but-normal events from real problems |
-
----
-
-
-
-| Test | Result |
-|:--|:--:|
-| Wi-Fi on 2.4 GHz WPA2 | ✅ |
-
-
-
 
 ---
 
