@@ -12,9 +12,6 @@
 ![Python](https://img.shields.io/badge/Python-Isolation%20Forest-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![MATLAB](https://img.shields.io/badge/MATLAB-App%20%26%20Analysis-e16737?style=for-the-badge&logo=mathworks&logoColor=white)
 
-**Sarker Aumio Kumar** & **Ng Pui Chak Johnny**
-EE3070 Design Project · City University of Hong Kong · 2025
-
 </div>
 
 ---
@@ -69,13 +66,12 @@ Volt Vision was built by four EE students, each owning a subsystem:
 ---
 
 
-
 Aumio's work produces the data and the warnings.
 ---
 
 ## 🗺️ System Map
 
-🟨 Aumio · 🟩 Johnny · ⬜ Teammates
+🟨 Aumio · ⬜ Teammates
 
 ```mermaid
 flowchart LR
