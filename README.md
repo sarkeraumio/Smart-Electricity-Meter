@@ -19,14 +19,56 @@ EE3070 Design Project · City University of Hong Kong · 2025
 
 ---
 
-## 📖 Overview
+## 📖 About the Project
 
-Volt Vision is a four-person smart meter project. This repository documents the two halves of the device that make it *smart*:
+### The problem
 
-| | Member | Role | In one line |
-|:--:|:--|:--|:--|
-| 🟨 | [**Sarker Aumio Kumar**](#-part-1--sarker-aumio-kumar) | **Sensing & Intelligence** | Makes the meter understand what's happening: measuring, spotting faults, and detecting anomalies |
-| 🟩 | [**Ng Pui Chak Johnny**](#-part-2--ng-pui-chak-johnny) | **Connectivity & Control** | Makes the meter act on it: going online, cutting power, and responding to voice and remote commands |
+Traditional electricity meters only count units. They can't tell a household what is using power right now, warn them when something goes wrong, or let them do anything about it when they're away from home. That leads to real problems:
+
+- 🧳 **Appliances left on** during a trip waste money and can be a fire risk, with no way to switch them off remotely.
+- 🔥 **Live wiring during a fire** exposes firefighters to high voltage.
+- 📉 **No history or insight** makes it hard to understand consumption or stay within a budget.
+- 🔓 **Energy and billing data** on a basic meter has no privacy protection.
+
+### The solution
+
+**Volt Vision** is a prototype smart electricity meter for homes, built around an Arduino Mega 2560. It measures power in real time, sends it to the cloud, protects the home automatically, and gives users several ways to see and control their electricity.
+
+| Feature | What it does |
+|:--|:--|
+| 📈 **Real-time monitoring** | Measures voltage, current, power and energy for the household load and a solar panel, shown on an OLED screen |
+| ☁️ **Cloud logging** | Uploads readings to ThingSpeak over Wi-Fi for remote access and history |
+| 🔌 **Remote power control** | Users or the electricity company can switch the supply off from anywhere |
+| 🔥 **Fire protection** | Cuts power and sounds an alarm when temperature goes above 40 °C |
+| 🚨 **Fault & anomaly detection** | Threshold checks plus a machine-learning model flag unusual consumption |
+| 💳 **RFID access & payment** | An authorised card reveals private bill data and pays from the card balance |
+| 🗣️ **Voice assistant** | Restores power by voice and gives energy-saving advice |
+| ☀️ **Solar integration** | Measures generated energy and applies a bill discount |
+| 📱 **MATLAB App** | Shows meter status and sends a remote cutoff |
+| 🌐 **Web dashboard** | Secure login, live gauges, custom limits and historical charts |
+
+### How it's used
+
+1. **Power on:** the meter starts measuring and shows live readings on the OLED.
+2. **Check the bill:** tap an RFID card to view private energy and cost, and tap again to pay.
+3. **Stay informed:** log in to the website for live gauges, alerts and history by day, month or year.
+4. **Take control:** switch the supply off from the MATLAB App, or say "turn on" to the voice assistant to restore it.
+5. **Stay safe:** faults, anomalies and overheating trigger alarms, and fires cut the power automatically.
+
+### The team
+
+Volt Vision was built by four EE students, each owning a subsystem:
+
+| Member | Subsystem |
+|:--|:--|
+| 🟨 **Sarker Aumio Kumar** | Sensing & intelligence: monitoring, fault detection, OLED, anomaly detection |
+| 🟩 **Ng Pui Chak Johnny** | Connectivity & control: Wi-Fi, cloud, power control, fire alarm, solar, voice, MATLAB App |
+| ⬜ Wong Xin Jerry | Billing and RFID verification and payment |
+| ⬜ Wootinun Ouppapong (Boon) | Web dashboard and user database |
+
+---
+
+
 
 Aumio's work produces the data and the warnings. Johnny's work carries that data to the cloud and turns decisions into physical action. Neither half works without the other, and the [**How Our Work Connects**](#-how-our-work-connects) section shows exactly where they meet.
 
