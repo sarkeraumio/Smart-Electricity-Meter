@@ -9,7 +9,7 @@
 ![ThingSpeak](https://img.shields.io/badge/ThingSpeak-IoT%20Cloud-0076A8?style=for-the-badge)
 ![MATLAB](https://img.shields.io/badge/MATLAB-App-e16737?style=for-the-badge&logo=mathworks&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-Isolation%20Forest-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
 
 ![Volt Vision dashboard](docs/images/dashboard.png)
 
@@ -37,7 +37,6 @@ A traditional meter can't help with any of that. **Volt Vision** can:
 - 🗣️ **Take voice commands** and give energy-saving advice
 - 🤖 **Spot unusual consumption** with machine learning before it becomes a problem
 
-> Built by a four-person team for **EE3070 Design Project** at **City University of Hong Kong** (2025).
 
 ---
 
