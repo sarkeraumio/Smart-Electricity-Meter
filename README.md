@@ -58,8 +58,8 @@ Volt Vision was built by four EE students, each owning a subsystem:
 
 | Member | Subsystem |
 |:--|:--|
-| 🟨 **Sarker Aumio Kumar** | Sensing & intelligence: monitoring, fault detection, OLED, anomaly detection, Wifi |
-| 🟩 Ng Pui Chak Johnny | Connectivity & control: Wi-Fi, cloud, power control, fire alarm, solar, voice, MATLAB App |
+| 🟨 **Sarker Aumio Kumar** | Sensing & intelligence: monitoring, fault detection, OLED, anomaly detection, fire alarm |
+| 🟩 Ng Pui Chak Johnny | Connectivity & control: Wi-Fi, cloud, power control, solar, voice, MATLAB App |
 | ⬜ Wong Xin Jerry | Billing and RFID verification and payment |
 | ⬜ Wootinun Ouppapong (Boon) | Web dashboard and user database |
 
@@ -131,7 +131,8 @@ I built the firmware foundation that the whole meter runs on, then layered monit
 | 🖥️ [OLED Display](#%EF%B8%8F-a4-oled-display) | Live energy, bill and RFID-protected data |
 | 🔬 [Anomaly Analysis](#-a5-anomaly-detection-analysis-matlab) | Isolation Forest on logged data in MATLAB |
 | 🤖 [Real-Time Anomaly Alerts](#-a6-real-time-anomaly-alerts) | Cloud-based detection pushed back to the device |
-
+| 🔌 [Power Control Logic](#-j3-power-supply-control-logic) | Four control signals and a dual-supply MUX |
+| 🔥 [Fire Alarm](#-j4-fire-alarm) | Automatic cutoff above 40 °C |
 ---
 
 ### 🧱 A1. Firmware Foundation
@@ -226,16 +227,6 @@ Simple thresholds catch obvious faults but miss subtle problems, like a bill bei
 3. Train Isolation Forest on fan power, solar power, bill and earnings.
 4. Plot results with anomalies marked in red.
 
-#### Results
-
-![Anomaly detection results](docs/images/anomaly-detection.png)
-
-| Anomaly found | Why it matters |
-|:--|:--|
-| **Excessive fan power** | Possible overload or faulty appliance |
-| **Bill recorded with zero consumption** | Billing error or tampering |
-| **Solar generation without earnings** (or the reverse) | Data mismatch between measurement and billing |
-
 The model separated outliers from normal behaviour **without any labels**, and worked well even on a small test dataset of about **40 samples**, over both short (minutes) and long (days) time windows.
 
 ---
@@ -269,86 +260,7 @@ flowchart TD
 Running the model off-device keeps the Mega 2560 free for its real-time work, while the user still gets the alert on the meter itself.
 
 ---
-
-### 🧪 Aumio's Testing
-
-| Test | Result |
-|:--|:--:|
-| INA219 sensors on shared I²C bus | ✅ |
-| Real-time voltage and power readings | ✅ |
-| Energy and bill shown on OLED | ✅ |
-| RFID-protected bill view on OLED | ✅ |
-| **Short-circuit test:** resistor and LED load removed | ✅ Buzzer sounded, LED turned red |
-| Anomaly detection in MATLAB | ✅ All three anomaly types flagged |
-| Anomaly warning on OLED | ✅ |
-
-### 🧗 Aumio's Challenges
-
-| Challenge | Detail |
-|:--|:--|
-| **On-device limits** | The Mega can't run ML models, so detection was moved to an external service |
-| **False positives** | Momentary spikes, sensor noise and environmental changes can look like anomalies |
-| **Small dataset** | Limited data makes it harder to tell rare-but-normal events from real problems |
-
----
-
-
-## Connectivity & Control
-
-Johnny connected the meter to the outside world and gave it the ability to act: cutting power on command or in danger, restoring it by voice, and letting users control it remotely.
-
-| Subsystem | What it does |
-|:--|:--|
-| 📶 [Wi-Fi Connectivity](#-j1-wi-fi-connectivity) | Internet access through an ESP8266 |
-| ☁️ [Cloud Database](#%EF%B8%8F-j2-cloud-database-thingspeak) | Three ThingSpeak channels |
-| 🔌 [Power Control Logic](#-j3-power-supply-control-logic) | Four control signals and a dual-supply MUX |
-| 🔥 [Fire Alarm](#-j4-fire-alarm) | Automatic cutoff above 40 °C |
-| ☀️ [Solar Measurement](#%EF%B8%8F-j5-solar-cell-measurement) | Generated power for a bill discount |
-| 🗣️ [Voice Assistant](#%EF%B8%8F-j6-esp32-voice-assistant) | "Turn on" by voice and energy-saving chat |
-| 📱 [MATLAB App](#-j7-matlab-control-app) | Remote status and cutoff |
-| 🧩 [Integration](#-j8-system-integration) | Modules combined into one organised sketch |
-
----
-
-### 📶 J1. Wi-Fi Connectivity
-
-| ESP8266 | Arduino Mega 2560 |
-|:--|:--|
-| `VCC` | 3.3 V |
-| `GND` | GND |
-| `TX` | `RX1` (D19) |
-| `RX` | `TX1` (D18) |
-
-- Communicates over hardware serial with the **Hayes AT command set**, e.g. `AT+CWJAP="ssid","password"`.
-- Uses the `WiFiEsp` library to join the network.
-- Connection code was needed before every cloud request, so Johnny wrote a single **`wifiConnection()`** function, removing about **50 lines** of duplicated code.
-
-> **Constraint:** the ESP8266 only joins **2.4 GHz WPA2** networks, not 5 GHz or WPA3.
-
----
-
-### ☁️ J2. Cloud Database (ThingSpeak)
-
-ThingSpeak acts as an MQTT-style broker. The meter is both **publisher** (uploading readings) and **subscriber** (receiving control signals).
-
-| Channel | Field 1 | Field 2 | Field 3 | Field 4 | Meter |
-|:--|:--|:--|:--|:--|:--|
-| **1 · Home Load** | Voltage | Power | Energy | Cost | Writes |
-| **2 · Status** | Working | Trip | Fire Alarm | Cutoff | Reads + writes |
-| **3 · Solar** | Voltage | Power | Energy | Discount | Writes |
-
-| Function | Role |
-|:--|:--|
-| `wifiWriteChannel1()` | Uploads all four load fields in one request |
-| `wifiWriteChannel2()` | Publishes status, only when a fire is detected |
-| `wifiWriteChannel3()` | Uploads solar data |
-| Channel 2 read | Fetches trip and cutoff signals every cycle |
-
-**Free-tier workaround:** ThingSpeak accepts one update every **15 seconds**. A counter lets the meter keep the OLED and RFID responsive during that window and upload only when it opens.
-
----
-
-### 🔌 J3. Power Supply Control Logic
+### 🔌 A7. Power Supply Control Logic
 
 | Signal | Set by | Meaning |
 |:--|:--|:--|
@@ -401,89 +313,41 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 ---
 
 
-### 🧪 Johnny's Testing
+### 🧪 Aumio's Testing
+
+| Test | Result |
+|:--|:--:|
+| INA219 sensors on shared I²C bus | ✅ |
+| Real-time voltage and power readings | ✅ |
+| Energy and bill shown on OLED | ✅ |
+| RFID-protected bill view on OLED | ✅ |
+| **Short-circuit test:** resistor and LED load removed | ✅ Buzzer sounded, LED turned red |
+| Anomaly detection in MATLAB | ✅ All three anomaly types flagged |
+| Anomaly warning on OLED | ✅ |
+| Fire alarm above 40 °C | ✅ |
+
+### 🧗 Aumio's Challenges
+
+| Challenge | Detail |
+|:--|:--|
+| **On-device limits** | The Mega can't run ML models, so detection was moved to an external service |
+| **False positives** | Momentary spikes, sensor noise and environmental changes can look like anomalies |
+| **Small dataset** | Limited data makes it harder to tell rare-but-normal events from real problems |
+
+---
+
+
 
 | Test | Result |
 |:--|:--:|
 | Wi-Fi on 2.4 GHz WPA2 | ✅ |
-| ThingSpeak writes (Channels 1–3) and reads | ✅ |
-| Mega and ESP32 supply through MUX | ✅ |
-| Remote cutoff from MATLAB App | ✅ |
-| Fire alarm above 40 °C | ✅ |
-| Voice "turn on" after cutoff | ✅ |
-| Solar measurement | ⚠️ 0 W when battery full |
 
-### 🧗 's Challenges
 
-| Challenge | Solution |
-|:--|:--|
-| 15 s upload limit | Counter keeps OLED and RFID live between uploads |
-| HTTP `-301` / `-304` read errors on full channels | Cleared the channel |
-| ESP8266 won't join 5 GHz / WPA3 | Use 2.4 GHz WPA2 |
-| Repeated connection code | `wifiConnection()` helper |
+
 
 ---
 
 
-
-### End-to-end: an anomaly from sensor to screen
-
-```mermaid
-sequenceDiagram
-    participant INA as 🟨 INA219
-    participant Mega as ⚡ Mega 2560
-    participant WiFi as 🟩 ESP8266
-    participant TS as 🟩 ThingSpeak
-    participant ML as 🟨 Isolation Forest
-    participant OLED as 🟨 OLED + buzzer
-
-    INA->>Mega: Voltage & current
-    Mega->>Mega: 🟨 Power, energy, cost
-    Mega->>WiFi: 🟩 Upload request
-    WiFi->>TS: Channels 1 & 3
-    loop Every minute
-        ML->>TS: Fetch latest readings
-        ML->>ML: Score for anomalies
-        ML->>TS: Anomaly flag = 1
-    end
-    Mega->>WiFi: 🟩 Read flag
-    WiFi->>TS: Request
-    TS-->>Mega: Flag = 1
-    Mega->>OLED: 🟨 "Anomaly Detected!" + alarm
-```
-
-
----
-
-## 🛠️ Hardware
-
-![Circuit schematic](hardware/schematic.png)
-
-| Component | Qty | Owner |
-|:--|:--:|:--|
-| Arduino Mega 2560 | 1 | Shared |
-| INA219 power sensor | 2 | 🟨 Aumio |
-| SSD1306 OLED | 1 | 🟨 Aumio |
-| LED load matrix + potentiometer | 1 | 🟨 Aumio |
-| ESP8266 Wi-Fi module | 1 | 🟩 Johnny |
-| ESP32 with speaker | 1 | 🟩 Johnny |
-| 74HC157 2-to-1 MUX | 1 | 🟩 Johnny |
-| Temperature sensor | 1 | 🟩 Johnny |
-| Solar cell + battery charge module | 1 | 🟩 Johnny |
-| Buzzer + status RGB LED | 1 each | Shared |
-
-<details>
-<summary>📌 Pin mapping (Arduino Mega 2560)</summary>
-
-| Pin | Connects to | Owner |
-|:--|:--|:--|
-| `D2` | MUX input B · Mega supply | 🟩 |
-| `D3` | Buzzer | Shared |
-| `D4` | MUX select | 🟩 |
-| `D5` `D6` `D7` | Status LED R G B | Shared |
-| `A0` | Temperature sensor | 🟩 |
-| `D18` / `D19` | ESP8266 RX / TX | 🟩 |
-| `D20` SDA / `D21` SCL | INA219 A, INA219 B, OLED | 🟨 |
 
 
 
