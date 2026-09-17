@@ -78,15 +78,15 @@ flowchart LR
     subgraph METER["⚡ Volt Vision Meter · Arduino Mega 2560"]
         direction TB
         INAB["INA219 B<br/>🏠 Load sensing"]:::aumio
-        INAA["INA219 A<br/>☀️ Solar sensing"]:::aumio
-        SOLAR["Solar cell<br/>+ battery load"]:::aumio --> INAA
+        INAA["INA219 A<br/>☀️ Solar sensing"]:::team
+        SOLAR["Solar cell<br/>+ battery load"]:::team --> INAA
         MON["Power & energy<br/>calculation"]:::aumio
         FAULT["Fault<br/>detection"]:::aumio
         OLED["OLED display<br/>& anomaly alert"]:::aumio
         BILL["Billing<br/>& RFID"]:::team
         TEMP["🌡️ Temperature<br/>sensor"]:::aumio
         CTRL["Power control<br/>logic & fire alarm"]:::aumio
-        WIFI["📶 ESP8266<br/>Wi-Fi"]:::aumio
+        WIFI["📶 ESP8266<br/>Wi-Fi"]:::team
         MUX["74HC157<br/>MUX"]:::aumio
         VOICE["🗣️ ESP32<br/>voice AI"]:::team
         ALERT["🔔 Buzzer<br/>🔴 Status LED"]:::aumio
