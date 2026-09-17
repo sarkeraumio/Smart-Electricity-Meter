@@ -297,7 +297,6 @@ Running the model off-device keeps the Mega 2560 free for its real-time work, wh
 
 ---
 
-# 🟩 Part 2 · Ng Pui Chak Johnny
 
 ## Connectivity & Control
 
@@ -406,64 +405,6 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 
 ---
 
-### ☀️ J5. Solar Cell Measurement
-
-- The solar cell feeds **INA219 A** with a **battery charge module** as its load, and results go to Channel 3 with a small bill discount.
-- A PN junction turns photons into electron-hole pairs, which the depletion region's electric field separates into current. With **15–40 %** efficiency, the discount is modest by design.
-- **Issue found:** a fully charged battery stops drawing current, so power reads **0 W**. A resistive dummy load would fix this.
-
----
-
-### 🗣️ J6. ESP32 Voice Assistant
-
-Built on [**xiaozhi-esp32**](https://github.com/78/xiaozhi-esp32).
-
-```mermaid
-sequenceDiagram
-    actor User
-    participant ESP as 🗣️ ESP32
-    participant Srv as 🖥️ Speech server
-    participant LLM as 🤖 LLM
-    participant MUX as 74HC157
-
-    User->>ESP: "Turn on"
-    ESP->>Srv: Audio
-    Srv->>LLM: Text
-    LLM-->>Srv: Reply + intent
-    Srv-->>ESP: Response
-    ESP->>MUX: Pin 18 HIGH (5 V)
-    ESP-->>User: Spoken confirmation
-```
-
-| Capability | Details |
-|:--|:--|
-| Voice power control | "Turn on" drives `Pin 18` HIGH through the MUX to the load |
-| Energy advice | Chat about reducing consumption |
-| Memory | Up to **500 words** of conversation history |
-
----
-
-### 📱 J7. MATLAB Control App
-
-![MATLAB App states](docs/images/matlab-app.png)
-
-| Control | Function |
-|:--|:--|
-| **Read from** | Reads Channel 2 and lights matching indicators |
-| **Send to** | Publishes switch states to Channel 2 |
-| **Cutoff switch** | Remote power-off for users |
-| **Working / Trip / Fire switches** | Debug build only, for simulating events |
-
-The app shows status only. Charts are hard to read in a small window, so history is left to the website.
-
----
-
-### 🧩 J8. System Integration
-
-- Integrated the **ESP8266**, **RC522 RFID** and **SSD1306 OLED** into one sketch without pin or bus conflicts.
-- Organised the Arduino project into **header files** by function so the team could develop in parallel.
-
----
 
 ### 🧪 Johnny's Testing
 
@@ -477,7 +418,7 @@ The app shows status only. Charts are hard to read in a small window, so history
 | Voice "turn on" after cutoff | ✅ |
 | Solar measurement | ⚠️ 0 W when battery full |
 
-### 🧗 Johnny's Challenges
+### 🧗 's Challenges
 
 | Challenge | Solution |
 |:--|:--|
@@ -488,35 +429,7 @@ The app shows status only. Charts are hard to read in a small window, so history
 
 ---
 
-# 🔗 How Our Work Connects
 
-The two halves meet at five points.
-
-| # | Interface | 🟨 Aumio provides | 🟩 Johnny provides |
-|:--:|:--|:--|:--|
-| 1 | **Sensor → Cloud** | INA219 voltage, power and energy | `wifiWriteChannel1()` / `wifiWriteChannel3()` uploads |
-| 2 | **Cloud → Intelligence** | Isolation Forest reading ThingSpeak data | ThingSpeak channels and data structure |
-| 3 | **Intelligence → Device** | Anomaly flag and OLED warning | Wi-Fi link that brings the flag back to the meter |
-| 4 | **Solar data** | INA219 A sensing and energy calculation | Solar cell circuit and Channel 3 |
-| 5 | **Alerts** | Fault detection triggers | Fire alarm triggers, both using the shared buzzer and status LED |
-
-### The main loop, split between us
-
-The 15-second ThingSpeak limit shapes the whole firmware loop. Johnny's logic runs every cycle and decides when to upload. Aumio's display work fills the time between uploads.
-
-```mermaid
-flowchart TD
-    L([Loop]) --> T[🟩 Check temperature · fire alarm]
-    T --> RC[🟩 Read trip & cutoff from cloud]
-    RC --> PC[🟩 Apply power control logic]
-    PC --> W{Under 15 s<br/>since upload?}
-    W -- Yes --> M1[🟨 Measure INA219 A & B]
-    M1 --> O[🟨 Update OLED / RFID bill view]
-    O --> L
-    W -- No --> M2[🟨 Measure & calculate energy + cost]
-    M2 --> U[🟩 Upload Channels 1 & 3]
-    U --> L
-```
 
 ### End-to-end: an anomaly from sensor to screen
 
@@ -544,32 +457,6 @@ sequenceDiagram
     Mega->>OLED: 🟨 "Anomaly Detected!" + alarm
 ```
 
----
-
-## 📅 Timeline
-
-```mermaid
-gantt
-    title Aumio & Johnny · Development Schedule (2025)
-    dateFormat YYYY-MM-DD
-    axisFormat %d %b
-
-    section 🟨 Aumio
-    Firmware setup, INA219, serial output   :a1, 2025-02-27, 2025-03-03
-    Real-time monitoring                    :a2, 2025-03-03, 2025-03-13
-    Fault detection                         :a3, 2025-03-03, 2025-03-10
-    Energy & bill display                   :a4, 2025-03-05, 2025-03-13
-    RFID bill display on OLED               :a5, 2025-03-10, 2025-03-17
-    Anomaly detection analysis              :a6, 2025-03-18, 2025-03-31
-    Real-time anomaly display on OLED       :a7, 2025-03-31, 2025-04-10
-
-    section 🟩 Johnny
-    Solar measurement & file management     :j1, 2025-03-01, 2025-03-07
-    Integrate Wi-Fi, RFID & OLED            :j2, 2025-03-07, 2025-03-14
-    ESP32 voice control                     :j3, 2025-03-13, 2025-03-20
-    Fire alarm & wireless control           :j4, 2025-03-21, 2025-03-28
-    MATLAB switches & LED display           :j5, 2025-04-03, 2025-04-10
-```
 
 ---
 
@@ -603,11 +490,7 @@ gantt
 | `D18` / `D19` | ESP8266 RX / TX | 🟩 |
 | `D20` SDA / `D21` SCL | INA219 A, INA219 B, OLED | 🟨 |
 
-**ESP32 `Pin 18`** → MUX input A (🟩)
 
-</details>
-
----
 
 ## 🚀 Setup
 
@@ -644,29 +527,6 @@ Open `matlab-app/VoltVisionControl.mlapp`, add the Channel 2 ID and keys, and ru
 
 ---
 
-## 🚀 Future Work
-
-| Improvement | Owner |
-|:--|:--|
-| Ensemble detection: Isolation Forest + LOF + Autoencoder to reduce false positives | 🟨 Aumio |
-| Richer features: time of day, weekday vs weekend, temperature, humidity, voltage and current | 🟨 Aumio |
-| Paid ThingSpeak plan or self-hosted MQTT for faster updates | 🟩 Johnny |
-| 3D-printed PLA enclosure | 🟩 Johnny |
-| Voice AI that reads cloud data to forecast usage and cost | 🟩 Johnny |
-| Custom PCB to shrink the device and reduce power draw | Both |
-
----
-
-## 👥 Team
-
-Volt Vision was built by four people. This repository focuses on Aumio's and Johnny's subsystems, which connect to the work of:
-
-| Member | Built |
-|:--|:--|
-| **Wong Xin Jerry** | Energy and bill calculation, RFID verification, payment and top-up |
-| **Wootinun Ouppapong (Boon)** | Web dashboard, user database, login system |
-
----
 
 ## 📚 References
 
