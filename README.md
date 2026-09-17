@@ -32,7 +32,7 @@ Traditional electricity meters only count units. They can't tell a household wha
 
 ### The solution
 
-**Volt Vision** is a prototype smart electricity meter for homes, built around an Arduino Mega 2560. It measures power in real time, sends it to the cloud, protects the home automatically, and gives users several ways to see and control their electricity.
+**Volt Vision** is a prototype smart electricity meter for homes. It measures power in real time, sends it to the cloud, protects the home automatically, and gives users several ways to see and control their electricity.
 
 | Feature | What it does |
 |:--|:--|
@@ -61,8 +61,8 @@ Volt Vision was built by four EE students, each owning a subsystem:
 
 | Member | Subsystem |
 |:--|:--|
-| 🟨 **Sarker Aumio Kumar** | Sensing & intelligence: monitoring, fault detection, OLED, anomaly detection |
-| 🟩 **Ng Pui Chak Johnny** | Connectivity & control: Wi-Fi, cloud, power control, fire alarm, solar, voice, MATLAB App |
+| 🟨 **Sarker Aumio Kumar** | Sensing & intelligence: monitoring, fault detection, OLED, anomaly detection, Wifi |
+| 🟩 Ng Pui Chak Johnny | Connectivity & control: Wi-Fi, cloud, power control, fire alarm, solar, voice, MATLAB App |
 | ⬜ Wong Xin Jerry | Billing and RFID verification and payment |
 | ⬜ Wootinun Ouppapong (Boon) | Web dashboard and user database |
 
@@ -70,8 +70,7 @@ Volt Vision was built by four EE students, each owning a subsystem:
 
 
 
-Aumio's work produces the data and the warnings. Johnny's work carries that data to the cloud and turns decisions into physical action. Neither half works without the other, and the [**How Our Work Connects**](#-how-our-work-connects) section shows exactly where they meet.
-
+Aumio's work produces the data and the warnings.
 ---
 
 ## 🗺️ System Map
@@ -84,17 +83,17 @@ flowchart LR
         direction TB
         INAB["INA219 B<br/>🏠 Load sensing"]:::aumio
         INAA["INA219 A<br/>☀️ Solar sensing"]:::aumio
-        SOLAR["Solar cell<br/>+ battery load"]:::johnny --> INAA
+        SOLAR["Solar cell<br/>+ battery load"]:::aumio --> INAA
         MON["Power & energy<br/>calculation"]:::aumio
         FAULT["Fault<br/>detection"]:::aumio
         OLED["OLED display<br/>& anomaly alert"]:::aumio
         BILL["Billing<br/>& RFID"]:::team
-        TEMP["🌡️ Temperature<br/>sensor"]:::johnny
-        CTRL["Power control<br/>logic & fire alarm"]:::johnny
-        WIFI["📶 ESP8266<br/>Wi-Fi"]:::johnny
-        MUX["74HC157<br/>MUX"]:::johnny
-        VOICE["🗣️ ESP32<br/>voice AI"]:::johnny
-        ALERT["🔔 Buzzer<br/>🔴 Status LED"]:::shared
+        TEMP["🌡️ Temperature<br/>sensor"]:::aumio
+        CTRL["Power control<br/>logic & fire alarm"]:::aumio
+        WIFI["📶 ESP8266<br/>Wi-Fi"]:::aumio
+        MUX["74HC157<br/>MUX"]:::aumio
+        VOICE["🗣️ ESP32<br/>voice AI"]:::aumio
+        ALERT["🔔 Buzzer<br/>🔴 Status LED"]:::aumio
 
         INAB --> MON
         INAA --> MON
@@ -108,10 +107,10 @@ flowchart LR
         VOICE --> MUX
     end
 
-    WIFI <--> TS[("☁️ ThingSpeak")]:::johnny
+    WIFI <--> TS[("☁️ ThingSpeak")]:::aumio
     TS --> ML["🤖 Isolation Forest<br/>anomaly detector"]:::aumio
     ML -- anomaly flag --> TS
-    TS <--> APP["📱 MATLAB App"]:::johnny
+    TS <--> APP["📱 MATLAB App"]:::aumio
     TS <--> WEB["🌐 Website"]:::team
 
     classDef aumio fill:#FFE8A3,stroke:#C99A00,stroke-width:2px,color:#000
@@ -122,11 +121,11 @@ flowchart LR
 
 ---
 
-# 🟨 Part 1 · Sarker Aumio Kumar
+# 🟨 Aumio Kumar Sarker's contribution
 
 ## Sensing & Intelligence
 
-Aumio built the firmware foundation that the whole meter runs on, then layered monitoring, fault detection and machine-learning anomaly detection on top of it.
+I built the firmware foundation that the whole meter runs on, then layered monitoring, fault detection and machine-learning anomaly detection on top of it.
 
 | Subsystem | What it does |
 |:--|:--|
