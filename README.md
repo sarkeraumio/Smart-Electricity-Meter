@@ -4,13 +4,6 @@
 
 ### Sensing, intelligence and connectivity for a smart electricity meter
 
-![Arduino](https://img.shields.io/badge/Arduino-Mega%202560-00979D?style=for-the-badge&logo=arduino&logoColor=white)
-![INA219](https://img.shields.io/badge/INA219-Power%20Sensing-4B8BBE?style=for-the-badge)
-![ESP8266](https://img.shields.io/badge/ESP8266-Wi--Fi-000000?style=for-the-badge&logo=espressif&logoColor=white)
-![ESP32](https://img.shields.io/badge/ESP32-Voice%20AI-E7352C?style=for-the-badge&logo=espressif&logoColor=white)
-![ThingSpeak](https://img.shields.io/badge/ThingSpeak-IoT%20Cloud-0076A8?style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-Isolation%20Forest-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![MATLAB](https://img.shields.io/badge/MATLAB-App%20%26%20Analysis-e16737?style=for-the-badge&logo=mathworks&logoColor=white)
 
 </div>
 
@@ -58,6 +51,7 @@ Volt Vision was built by four EE students, each owning a subsystem:
 ---
 
 Aumio's work produces the data and the warnings.
+
 ---
 
 ## 🗺️ System Map
@@ -78,7 +72,7 @@ flowchart LR
         TEMP["🌡️ Temperature<br/>sensor"]:::aumio
         CTRL["Power control<br/>logic & fire alarm"]:::aumio
         WIFI["📶 ESP8266<br/>Wi-Fi"]:::team
-        MUX["74HC157<br/>MUX"]:::aumio
+        MUX["74HC157<br/>MUX"]:::team
         VOICE["🗣️ ESP32<br/>voice AI"]:::team
         ALERT["🔔 Buzzer<br/>🔴 Status LED"]:::aumio
 
@@ -122,7 +116,6 @@ I built the firmware foundation that the whole meter runs on, then layered monit
 | 🖥️ [OLED Display](#%EF%B8%8F-a4-oled-display) | Live energy, bill and RFID-protected data |
 | 🔬 [Anomaly Analysis](#-a5-anomaly-detection-analysis-matlab) | Isolation Forest on logged data in MATLAB |
 | 🤖 [Real-Time Anomaly Alerts](#-a6-real-time-anomaly-alerts) | Cloud-based detection pushed back to the device |
-| 🔌 [Power Control Logic](#-j3-power-supply-control-logic) | Four control signals and a dual-supply MUX |
 | 🔥 [Fire Alarm](#-j4-fire-alarm) | Automatic cutoff above 40 °C |
 ---
 
@@ -250,42 +243,6 @@ flowchart TD
 
 Running the model off-device keeps the Mega 2560 free for its real-time work, while the user still gets the alert on the meter itself.
 
----
-### 🔌 A7. Power Supply Control Logic
-
-| Signal | Set by | Meaning |
-|:--|:--|:--|
-| **Working status** | Meter | Normal operation |
-| **Trip** | Electricity company | e.g. unpaid bill |
-| **Fire alarm** | Meter | Temperature above 40 °C |
-| **Cutoff** | User (MATLAB App) | Manual remote switch-off |
-
-Only one signal is active at a time. At start-up, working status is `1` and the rest are `0`.
-
-#### Dual supply through a 74HC157 MUX
-
-| MUX pin | Connection |
-|:--|:--|
-| 1 (select) | Mega `D4` |
-| 2 (input A) | ESP32 `Pin 18` |
-| 3 (input B) | Mega `D2` |
-| 4 (output) | Load |
-
-```mermaid
-stateDiagram-v2
-    [*] --> Normal
-    Normal: ✅ Normal<br/>D2 HIGH · D4 HIGH → Mega supplies load
-    Cut: ⛔ Supply cut<br/>D2 LOW · D4 LOW → ESP32 selected
-    Voice: 🗣️ Voice restored<br/>ESP32 Pin 18 HIGH → load
-
-    Normal --> Cut: ✋ Cutoff (LED yellow)
-    Normal --> Cut: ⚡ Trip (LED yellow)
-    Normal --> Cut: 🔥 Fire (LED red + buzzer)
-    Cut --> Voice: User says "turn on"
-    Cut --> Normal: Signals cleared
-```
-
-**Design choice:** after a cutoff, the MUX hands control to the ESP32 so power only returns through a deliberate human voice command.
 
 ---
 
