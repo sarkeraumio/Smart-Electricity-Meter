@@ -50,7 +50,7 @@ Volt Vision was built by four EE students, each owning a subsystem:
 
 ---
 
-Aumio's work produces the data and the warnings.
+My(Aumio Kumar Sarker) work produces the data and the warnings.
 
 ---
 
@@ -119,6 +119,8 @@ I built the firmware foundation that the whole meter runs on, then layered monit
 | 🔥 [Fire Alarm](#-j4-fire-alarm) | Automatic cutoff above 40 °C |
 ---
 
+![Device](media/Device.png)
+
 ### 🧱 A1. Firmware Foundation
 
 The first working version of the meter firmware, which every other feature was built on:
@@ -157,6 +159,7 @@ flowchart LR
 The load side uses an **LED matrix with a potentiometer** so consumption can be varied during testing.
 
 ---
+![Block Diagram](media/block_diagram.png)
 
 **Demo video of Real Time Monitoring and Fault Detection:** [Smart Meter - Real Time Monitoring and Fault Detection](https://youtu.be/PBTL_lgU5Q8) 
 
@@ -267,7 +270,7 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 ---
 
 
-### 🧪 My's Testing
+### 🧪 My Testing
 
 | Test | Result |
 |:--|:--:|
@@ -280,7 +283,7 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 | Anomaly warning on OLED | ✅ |
 | Fire alarm above 40 °C | ✅ |
 
-### 🧗 My's Challenges
+### 🧗 My Challenges
 
 | Challenge | Detail |
 |:--|:--|
@@ -316,7 +319,7 @@ python realtime_flag.py
 ```
 
 
----
+
 
 
 ## 📚 References
