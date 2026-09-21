@@ -294,32 +294,6 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 
 
 
-
-## 🚀 Setup
-
-### 1. Meter firmware
-
-Install from the Arduino Library Manager:
-`DFRobot_INA219` · `Adafruit SSD1306` · `Adafruit GFX` · `WiFiEsp` · `ThingSpeak`
-
-```bash
-cp firmware/mega2560/secrets.example.h firmware/mega2560/secrets.h
-```
-
-Add Wi-Fi details (2.4 GHz WPA2) and ThingSpeak channel IDs and keys, then upload `volt_vision.ino`.
-
-### 2. Anomaly detection service
-
-```bash
-cd anomaly-detection
-pip install -r requirements.txt
-python realtime_flag.py
-```
-
-
-
-
-
 ## 📚 References
 
 - [DFRobot_INA219](https://github.com/DFRobot/DFRobot_INA219)
