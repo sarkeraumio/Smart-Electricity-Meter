@@ -13,12 +13,7 @@
 
 ### The problem
 
-Traditional electricity meters only count units. They can't tell a household what is using power right now, warn them when something goes wrong, or let them do anything about it when they're away from home. That leads to real problems:
-
-- 🧳 **Appliances left on** during a trip waste money and can be a fire risk, with no way to switch them off remotely.
-- 🔥 **Live wiring during a fire** exposes firefighters to high voltage.
-- 📉 **No history or insight** makes it hard to understand consumption or stay within a budget.
-- 🔓 **Energy and billing data** on a basic meter has no privacy protection.
+Traditional electricity meters only count units. They can't tell a household what is using power right now, warn them when something goes wrong, or let them do anything about it when they're away from home.
 
 ### The solution
 
