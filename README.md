@@ -158,6 +158,9 @@ The load side uses an **LED matrix with a potentiometer** so consumption can be 
 
 ---
 
+**Demo video of Real Time Monitoring and Fault Detection:** [Smart Meter - Real Time Monitoring and Fault Detection](https://youtu.be/PBTL_lgU5Q8) 
+
+
 ### 🚨 A3. Fault Detection
 
 Every reading is checked against safety limits before anything else happens.
@@ -184,6 +187,9 @@ flowchart TD
 The buzzer is driven from a digital pin with HIGH/LOW or PWM signals, through a 220 Ω resistor.
 
 ---
+
+**Demo video of Real Time Monitoring and Fault Detection:** [Smart Meter - Real Time Monitoring and Fault Detection](https://youtu.be/PBTL_lgU5Q8) 
+
 
 ### 🖥️ A4. OLED Display
 
