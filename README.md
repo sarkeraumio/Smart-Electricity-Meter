@@ -267,7 +267,7 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 ---
 
 
-### 🧪 Aumio's Testing
+### 🧪 My's Testing
 
 | Test | Result |
 |:--|:--:|
@@ -280,7 +280,7 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 | Anomaly warning on OLED | ✅ |
 | Fire alarm above 40 °C | ✅ |
 
-### 🧗 Aumio's Challenges
+### 🧗 My's Challenges
 
 | Challenge | Detail |
 |:--|:--|
@@ -315,17 +315,6 @@ pip install -r requirements.txt
 python realtime_flag.py
 ```
 
-For the offline analysis, export a CSV from ThingSpeak and run `analysis.m` in MATLAB.
-
-### 3. Voice assistant
-
-Flash the ESP32 with [xiaozhi-esp32](https://github.com/78/xiaozhi-esp32) and connect `Pin 18` to MUX input A.
-
-### 4. MATLAB App
-
-Open `matlab-app/VoltVisionControl.mlapp`, add the Channel 2 ID and keys, and run.
-
-> ⚠️ **Low-voltage educational prototype. Never connect to 220 V mains.**
 
 ---
 
@@ -338,8 +327,4 @@ Open `matlab-app/VoltVisionControl.mlapp`, add the Channel 2 ID and keys, and ru
 - [MATLAB ThingSpeak read](https://www.mathworks.com/help/thingspeak/thingspeakread.html) · [write](https://www.mathworks.com/help/thingspeak/thingspeakwrite.html)
 - Liu, Ting & Zhou, *Isolation Forest*, IEEE ICDM 2008
 
-<div align="center">
 
-**🟨 Sensing & intelligence · 🟩 Connectivity & control · ⚡ One meter**
-
-</div>
