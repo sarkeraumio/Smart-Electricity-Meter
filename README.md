@@ -263,7 +263,11 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 | Act | `D2` LOW, MUX to ESP32, status LED red, buzzer on (`D3`) |
 | Notify | `wifiWriteChannel2()` publishes the alarm so the website shows an alert |
 
----
+**Demo video of Auto Power Control(Under Fire Situation)** [Auto Power Control(Under Fire Situation)](https://youtube.com/shorts/ac8upokLwIk?feature=share) 
+
+
+
+
 
 
 ### 🧪 My Testing
