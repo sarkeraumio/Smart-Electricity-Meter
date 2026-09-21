@@ -266,9 +266,7 @@ A fire leaves live wiring behind, which endangers firefighters. The meter remove
 **Demo video of Auto Power Control(Under Fire Situation)** [Auto Power Control(Under Fire Situation)](https://youtube.com/shorts/ac8upokLwIk?feature=share) 
 
 
-
-
-
+---
 
 ### 🧪 My Testing
 
