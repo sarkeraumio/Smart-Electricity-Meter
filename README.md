@@ -1,4 +1,4 @@
-<div align="center">
+<img width="804" height="125" alt="image" src="https://github.com/user-attachments/assets/c9ccb948-ef98-4c4a-a12b-20b614ee5307" /><div align="center">
 
 # ⚡ Volt Vision
 
@@ -120,6 +120,7 @@ I built the firmware foundation that the whole meter runs on, then layered monit
 ---
 
 ![Device](media/Device.png)
+> The picture of a smart meter is shown above
 
 ### 🧱 A1. Firmware Foundation
 
@@ -160,8 +161,9 @@ The load side uses an **LED matrix with a potentiometer** so consumption can be 
 
 ---
 ![Block Diagram](media/block_diagram.png)
+> Block Diagram showing Real Time energy monitoring
 
-**Demo video of Real Time Monitoring and Fault Detection:** [Smart Meter - Real Time Monitoring and Fault Detection](https://youtu.be/PBTL_lgU5Q8) 
+Demo video of Real Time Monitoring and Fault Detection:** [Smart Meter - Real Time Monitoring and Fault Detection](https://youtu.be/PBTL_lgU5Q8) 
 
 
 ### 🚨 A3. Fault Detection
