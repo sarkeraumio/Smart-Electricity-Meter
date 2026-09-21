@@ -1,4 +1,3 @@
-<img width="804" height="125" alt="image" src="https://github.com/user-attachments/assets/c9ccb948-ef98-4c4a-a12b-20b614ee5307" /><div align="center">
 
 # ⚡ Volt Vision
 
